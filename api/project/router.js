@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const Projects = require("./model");
@@ -15,6 +14,5 @@ router.post("/", (req, res, next) => {
     .then((addP) => {res.json(addP);})
     .catch(next);
 });
-
 
 module.exports = router;
