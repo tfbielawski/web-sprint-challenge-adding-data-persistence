@@ -1,18 +1,19 @@
+// build your `Task` model here
 const db = require("../../data/dbConfig");
 
-async function findTask(task) {
-    const id = await db("tasks").insert(task);
-    const foundTask = {
+async function postTask(task) {
+    const [id] = await db("tasks").insert(task);
+    const newTask = {
         task_id: id,
         task_description: task.task_description,
         task_notes: task.task_notes,
         task_completed: task.task_completed,
-        project_id: task.project_id
-    }
-    return foundTask;
+        project_id: task.project_id,
+    };
+    return newTask;
 }
 
-async function postTask() {
+async function findTasks() {
     const results = await db("tasks as t")
         .leftJoin("projects as p", "p.project_id", "t.project_id")
         .select(
@@ -25,18 +26,18 @@ async function postTask() {
         );
 
     const tasks = [];
-    results.forEach((task) => {
+    results.forEach((e) => {
         tasks.push({
-            task_id: task.task_id,
-            task_description: task.task_description,
-            task_notes: task.task_notes,
-            task_completed: Boolean(task.task_completed),
-            project_name: task.project_name,
-            project_description: task.project_description,
+            task_id: e.task_id,
+            task_description: e.task_description,
+            task_notes: e.task_notes,
+            task_completed: Boolean(e.task_completed),
+            project_name: e.project_name,
+            project_description: e.project_description,
         });
     });
 
     return tasks;
 }
 
-module.exports = {  findTask, postTask,};
+module.exports = { findTasks, postTask,};
