@@ -25,19 +25,19 @@ async function findTasks() {
             "p.project_description"
         );
 
-    const tasks = [];
-    results.forEach((e) => {
-        tasks.push({
-            task_id: e.task_id,
-            task_description: e.task_description,
-            task_notes: e.task_notes,
-            task_completed: Boolean(e.task_completed),
-            project_name: e.project_name,
-            project_description: e.project_description,
+    const tasksArray = [];
+    results.forEach((task) => {
+        tasksArray.push({
+            task_id: task.task_id,
+            task_description: task.task_description,
+            task_notes: task.task_notes,
+            task_completed: Boolean(task.task_completed),
+            project_name: task.project_name,
+            project_description: task.project_description,
         });
     });
 
-    return tasks;
+    return tasksArray;
 }
 
 module.exports = { findTasks, postTask,};
